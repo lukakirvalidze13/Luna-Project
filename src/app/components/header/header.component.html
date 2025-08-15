@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="logo">
+    <span class="heart">💚</span> Luna
+  </div>
+
+  <!-- Desktop Menu -->
+  <nav class="desktop-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+    <a routerLink="/wheel" routerLinkActive="active" class="hot">Wheel (HOT)</a>
+    <a routerLink="/positions" routerLinkActive="active">Positions</a>
+    <a routerLink="/minigames" routerLinkActive="active">MiniGames (2P)</a>
+  </nav>
+
+  <!-- Mobile Menu Button -->
+  <div class="mobile-menu-btn" (click)="toggleMenu()">☰</div>
+
+  <!-- Mobile Dropdown -->
+  <nav class="mobile-nav" *ngIf="menuOpen">
+    <a routerLink="/" (click)="toggleMenu()">Home</a>
+    <a routerLink="/wheel" class="hot" (click)="toggleMenu()">Wheel (HOT)</a>
+    <a routerLink="/positions" (click)="toggleMenu()">Positions</a>
+    <a routerLink="/minigames" (click)="toggleMenu()">MiniGames (2P)</a>
+  </nav>
+</header>

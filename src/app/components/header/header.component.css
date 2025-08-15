@@ -1,0 +1,114 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 40px;
+  background: linear-gradient(270deg, #ff85a2, #d98eff);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.heart {
+  color: #ff3366;
+  font-size: 1.5rem;
+  margin-right: 8px;
+  animation: heartBeat 1.5s infinite;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1); }
+}
+
+nav a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffe6f0;
+  text-shadow: 0 0 8px #ff99bb;
+}
+
+nav a.active {
+  border-bottom: 2px solid white;
+  padding-bottom: 3px;
+}
+
+nav a.hot {
+  background: #ff3366;
+  padding: 6px 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #ff6699;
+  transition: 0.3s;
+}
+
+nav a.hot:hover {
+  background: #ff6699;
+}
+
+
+/* Hide mobile menu button on desktop */
+.mobile-menu-btn {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+}
+
+/* Mobile nav dropdown */
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,0.8);
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  z-index: 999;
+}
+
+.mobile-nav a {
+  color: white;
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.mobile-nav a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Switch to mobile mode */
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+}

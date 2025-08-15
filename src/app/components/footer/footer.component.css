@@ -1,0 +1,68 @@
+.footer {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: #1a0b12; 
+  border-top: 2px solid #ff66aa;
+}
+
+.love-counter {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ff66aa;
+  text-shadow:
+    0 0 5px #ff66aa,
+    0 0 10px #ff99cc,
+    0 0 20px #ff66aa,
+    0 0 30px #ff99cc,
+    0 0 40px #ff66aa;
+  z-index: 10;
+  position: relative;
+  animation: neonPulse 3s ease-in-out infinite;
+}
+
+@keyframes neonPulse {
+  0%, 100% { text-shadow: 0 0 5px #ff66aa,0 0 10px #ff99cc,0 0 20px #ff66aa,0 0 30px #ff99cc,0 0 40px #ff66aa; }
+  50% { text-shadow: 0 0 10px #ff66aa,0 0 20px #ff99cc,0 0 30px #ff66aa,0 0 40px #ff99cc,0 0 50px #ff66aa; }
+}
+
+.heart-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heart-particles .heart {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.3;
+  animation: floatHearts linear infinite;
+  color: #ff66aa;
+}
+
+.heart-particles .heart:nth-child(1) { left: 5%; animation-duration: 10s; animation-delay: 0s; }
+.heart-particles .heart:nth-child(2) { left: 20%; animation-duration: 12s; animation-delay: 2s; }
+.heart-particles .heart:nth-child(3) { left: 40%; animation-duration: 14s; animation-delay: 4s; }
+.heart-particles .heart:nth-child(4) { left: 60%; animation-duration: 11s; animation-delay: 1s; }
+.heart-particles .heart:nth-child(5) { left: 80%; animation-duration: 13s; animation-delay: 3s; }
+
+@keyframes floatHearts {
+  0% { transform: translateY(120px) scale(1); opacity: 0.3; }
+  50% { transform: translateY(60px) scale(1.1); opacity: 0.6; }
+  100% { transform: translateY(-20px) scale(1); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .love-counter { font-size: 1.2rem; }
+  .heart-particles .heart { font-size: 1rem; }
+}
