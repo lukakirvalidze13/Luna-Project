@@ -98,3 +98,23 @@
     </div>
   </div>
 </div>
+
+<section class="star-map-section">
+  <h2>✨ Our Special Moments ✨</h2>
+  
+  <div class="stars-container">
+    <div 
+      class="star" 
+      *ngFor="let star of stars" 
+      [class.locked]="star.locked" 
+      (click)="onStarClick(star)">
+      ⭐
+    </div>
+  </div>
+
+  <div class="star-popup" *ngIf="selectedStar">
+    <h3>{{selectedStar.title}}</h3>
+    <p>{{selectedStar.date}}</p>
+    <button (click)="selectedStar=null">Close</button>
+  </div>
+</section>

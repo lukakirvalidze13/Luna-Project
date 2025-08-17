@@ -1,8 +1,6 @@
 import { Component, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-
-
 interface HeartParticle {
   x: number;
   y: number;
@@ -12,40 +10,49 @@ interface HeartParticle {
   color: string;
 }
 
-
+interface Star {
+  id: number;
+  title: string;
+  date: string;
+  locked: boolean;
+}
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css'
+  styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent {
-  
- heartsArray: number[] = [];
 
-  ngOnInit(): void {
-    // Create 20 floating hearts
-    this.heartsArray = Array(20).fill(0);
-  }
+  // -------------------- Hearts --------------------
+  heartsArray: number[] = [];
   hearts: HeartParticle[] = [];
   canvas!: HTMLCanvasElement;
   ctx!: CanvasRenderingContext2D;
   numHearts = 0;
-
   mouseX = 0;
   mouseY = 0;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
+  ngOnInit(): void {
+    this.heartsArray = Array(20).fill(0);
+
+    // Initialize stars
+    this.stars = [
+      { id: 1, title: 'First Meeting', date: '2021-05-14', locked: false },
+      { id: 2, title: 'First I Love You', date: '2021-08-22', locked: false },
+      { id: 3, title: 'Wedding Date', date: '??-??-2026', locked: true }
+    ];
+  }
+
   ngAfterViewInit(): void {
-    // Only run in the browser
     if (isPlatformBrowser(this.platformId)) {
       this.canvas = document.getElementById('heart-cloud') as HTMLCanvasElement;
       this.ctx = this.canvas.getContext('2d')!;
       this.resizeCanvas();
       this.initHearts();
       this.animate();
-      
     }
   }
 
@@ -102,32 +109,30 @@ export class HomepageComponent {
       this.ctx.restore();
     }
   }
+
+  // -------------------- Gallery --------------------
   images = [
-  'https://i.ibb.co/rK8XqMnC/image.png',
-  'https://i.ibb.co/273Hp2dh/image.png',
-  'https://i.ibb.co/LzKvDZBK/image.png',
-  'https://i.ibb.co/Dg1kwNXv/image.png',
-  'https://i.ibb.co/h1WC9smt/image.png',
-  'https://i.ibb.co/TBp6PZZV/image.png',
-  'https://i.ibb.co/93Vk9M4t/image-2025-08-15-032824384.png',
-  'https://i.ibb.co/0jSrwHys/image.png'
-];
+    'https://i.ibb.co/rK8XqMnC/image.png',
+    'https://i.ibb.co/273Hp2dh/image.png',
+    'https://i.ibb.co/LzKvDZBK/image.png',
+    'https://i.ibb.co/Dg1kwNXv/image.png',
+    'https://i.ibb.co/h1WC9smt/image.png',
+    'https://i.ibb.co/TBp6PZZV/image.png',
+    'https://i.ibb.co/93Vk9M4t/image-2025-08-15-032824384.png',
+    'https://i.ibb.co/0jSrwHys/image.png'
+  ];
 
-modalImage: string | null = null;
+  modalImage: string | null = null;
+  openModal(img: string) { this.modalImage = img; }
+  closeModal() { this.modalImage = null; }
 
-openModal(img: string) {
-  this.modalImage = img;
-}
-
-closeModal() {
-  this.modalImage = null;
-}
- showPasscodeModal = false;
+  showPasscodeModal = false;
   selectedImage: string | null = null;
   enteredPasscode = '';
   correctPasscode = '69';
   wrongPasscode = false;
-   requestPasscode(img: string) {
+
+  requestPasscode(img: string) {
     this.selectedImage = img;
     this.enteredPasscode = '';
     this.wrongPasscode = false;
@@ -138,89 +143,107 @@ closeModal() {
     if (this.enteredPasscode === this.correctPasscode && this.selectedImage) {
       this.modalImage = this.selectedImage;
       this.showPasscodeModal = false;
-    } else {
-      this.wrongPasscode = true;
+    } else { this.wrongPasscode = true; }
+  }
+
+  closePasscodeModal() { this.showPasscodeModal = false; }
+
+  bouncingRow = true;
+  startRowBounce() {
+    setInterval(() => {
+      this.bouncingRow = false;
+      (document.querySelector('.cloud-row') as HTMLElement)?.offsetWidth;
+      this.bouncingRow = true;
+    }, 2500);
+  }
+
+  // -------------------- Comments --------------------
+  comments = [{ user: 'Luka', text: 'მიყვარხარ ჩემი ცხოვრება!', likes: 69 }];
+  newCommentText = '';
+  imageLikes = 0;
+
+  addComment() {
+    if (this.newCommentText.trim()) {
+      this.comments.push({ user: 'You', text: this.newCommentText, likes: 0 });
+      this.newCommentText = '';
     }
   }
 
-  closePasscodeModal() {
-    this.showPasscodeModal = false;
+  likeComment(comment: any) { comment.likes++; }
+  likeImage() { this.imageLikes++; }
+
+  currentUsername: string | null = null;
+  tempUsername = '';
+  showUsernamePrompt = false;
+
+  promptUsernameAndPost() {
+    if (!this.currentUsername) this.showUsernamePrompt = true;
+    else this.postComment();
   }
 
-    bouncingRow = true;
-startRowBounce() {
-    setInterval(() => {
-      this.bouncingRow = false; // remove class first to reset animation
-      (document.querySelector('.cloud-row') as HTMLElement)?.offsetWidth;
-
-      this.bouncingRow = true;  // add class again to trigger bounce
-    }, 20); // every 2.5s
+  confirmUsername() {
+    if (this.tempUsername.trim() !== '') {
+      this.currentUsername = this.tempUsername.trim();
+      this.tempUsername = '';
+      this.showUsernamePrompt = false;
+      this.postComment();
+    }
   }
 
-
-
-  comments = [
-  { user: 'Luka', text: 'მიყვარხარ ჩემი ცხოგრება!', likes: 69 },
-];
-newCommentText = '';
-imageLikes = 0;
-
-addComment() {
-  if(this.newCommentText.trim()) {
-    this.comments.push({ user: 'You', text: this.newCommentText, likes: 0 });
+  postComment() {
+    if (this.newCommentText.trim() === '') return;
+    this.comments.push({ user: this.currentUsername!, text: this.newCommentText.trim(), likes: 0 });
     this.newCommentText = '';
   }
-}
 
-likeComment(comment: any) {
-  comment.likes++;
-}
+  deleteComment(index: number) { this.comments.splice(index, 1); }
 
-likeImage() {
-  this.imageLikes++;
-}
+  // -------------------- STAR MAP --------------------
+  stars: Star[] = [];
+  selectedStar: Star | null = null;
 
+  showStarPasscodeModal = false;
+  enteredStarPasscode = '';
+  warningStep = 0;
+  warningMessages = [
+    'Are you sure you want to see this special date?',
+    'Are you 210% sure?'
+  ];
 
-
-currentUsername: string | null = null;
-tempUsername = '';
-showUsernamePrompt = false;
-
-promptUsernameAndPost() {
-  if (!this.currentUsername) {
-    this.showUsernamePrompt = true;
-  } else {
-    this.postComment();
+  onStarClick(star: Star) {
+    if (star.locked) {
+      this.warningStep = 1;
+    } else {
+      this.selectedStar = star;
+    }
   }
-}
 
-confirmUsername() {
-  if (this.tempUsername.trim() !== '') {
-    this.currentUsername = this.tempUsername.trim();
-    this.tempUsername = '';
-    this.showUsernamePrompt = false;
-    this.postComment();
+  nextWarning() {
+    if (this.warningStep < this.warningMessages.length) {
+      this.warningStep++;
+    } else {
+      this.showStarPasscodeModal = true;
+      this.warningStep = 0;
+    }
   }
-}
 
-postComment() {
-  if (this.newCommentText.trim() === '') return;
-  this.comments.push({ user: this.currentUsername!, text: this.newCommentText.trim(), likes: 0 });
-  this.newCommentText = '';
-}
+  cancelStarPasscode() {
+    this.warningStep = 0;
+    this.showStarPasscodeModal = false;
+    this.enteredStarPasscode = '';
+  }
 
-
-
-deleteComment(index: number) {
-  this.comments.splice(index, 1);
-}
-
-
-
-
-
-
-
-
-
+  unlockStar() {
+    if (this.enteredStarPasscode === this.correctPasscode) {
+      const thirdStar = this.stars.find(s => s.id === 3);
+      if (thirdStar) {
+        thirdStar.locked = false;
+        this.selectedStar = thirdStar;
+        this.showStarPasscodeModal = false;
+        this.enteredStarPasscode = '';
+      }
+    } else {
+      alert('Wrong passcode!');
+    }
+  }
 }
