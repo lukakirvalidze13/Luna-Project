@@ -1,14 +1,57 @@
-<div class="slideshow">
-  <div class="slides">
-    <img src="https://i.ibb.co/Z6N653Zw/image-2025-08-15-032843048.png" alt="Us together">
-    <img src="https://thumbs.dreamstime.com/b/chipmunks-couple-romantic-pose-ai-generated-chipmunks-couple-romantic-pose-373727582.jpg" alt="Romantic moment">
-    <img src="https://i.ibb.co/93Vk9M4t/image-2025-08-15-032824384.png" alt="Memories">
+<div class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">Our Beautiful Journey 💚</h1>
+    <p class="hero-subtitle">Forever starts here...</p>
+    <button class="hero-btn" routerLink="/wheel">START NOW 💚</button>
+
+    <!-- Floating hearts -->
+    <div class="hearts">
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+      <span class="heart">💚</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="heart-cloud-section">
+  
+  <!-- Floating Hearts Background -->
+  <canvas id="heart-cloud"></canvas>
+
+  <div class="cloud-row" [class.bounce]="bouncingRow">
+    <div class="cloud" *ngFor="let img of images" (click)="requestPasscode(img)">
+          <div class="img-wrapper" #imgWrapper>
+
+
+      
+    </div>
+  </div>
   </div>
 
-  <div class="overlay"></div>
+  <!-- Passcode Modal -->
+<div class="passcode-modal" [class.show]="showPasscodeModal">
+  <div class="passcode-content">
+    <h2>
+      Enter Passcode to Unlock 💚
+      <button class="close-btn" (click)="closePasscodeModal()">✖</button>
+    </h2>
 
-  <div class="content">
-    <h1></h1>
-    <button class="start-btn" routerLink="/wheel">START NOW 💚</button>
+    <input type="password" [(ngModel)]="enteredPasscode" placeholder="Enter passcode..." />
+    <button (click)="unlockImage()">Unlock</button>
+    <p *ngIf="wrongPasscode" class="error">Wrong passcode! Try again.</p>
+  </div>
+</div>
+
+  <!-- Fullscreen Image Modal -->
+  <div class="modal" [class.show]="modalImage" (click)="closeModal()">
+    <img [src]="modalImage" alt="Full Image">
   </div>
 </div>

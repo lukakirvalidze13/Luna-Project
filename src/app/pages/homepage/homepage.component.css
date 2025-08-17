@@ -1,80 +1,621 @@
-.slideshow {
+/* Hero Section */
+.hero {
   position: relative;
-  width: 100%;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: url("https://plus.unsplash.com/premium_photo-1670099796120-b1dd288ab674?q=80&w=1460&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+    no-repeat center/cover;
   overflow: hidden;
 }
 
-.slides {
+.hero-overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.slides img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  animation: fadeSlide 15s infinite;
-}
-
-.slides img:nth-child(1) { animation-delay: 0s; }
-.slides img:nth-child(2) { animation-delay: 5s; }
-.slides img:nth-child(3) { animation-delay: 10s; }
-
-@keyframes fadeSlide {
-  0%, 20% { opacity: 1; }
-  33%, 100% { opacity: 0; }
-}
-
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255,105,180,0.4), rgba(0,255,128,0.3));
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 105, 180, 0.5), rgba(0, 255, 128, 0.3));
+  backdrop-filter: blur(6px);
   z-index: 1;
 }
 
-.content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+.hero-content {
+  position: relative;
   z-index: 2;
   color: white;
 }
 
-.content h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
-  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  margin-bottom: 15px;
 }
 
-.start-btn {
-  background: linear-gradient(90deg, #ff66aa, #00ff99);
-  padding: 15px 40px;
-  font-size: 1.2rem;
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.hero-btn {
+  padding: 18px 50px;
+  font-size: 1.5rem;
   font-weight: bold;
   border: none;
   border-radius: 50px;
-  cursor: pointer;
   color: white;
-  box-shadow: 0 0 15px rgba(255, 102, 170, 0.6);
-  animation: pulse 1.5s infinite;
+  background: linear-gradient(90deg, #ff66aa, #00ff99);
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+  animation: floatBtn 3s ease-in-out infinite;
   transition: all 0.3s ease;
 }
 
-.start-btn:hover {
-  box-shadow: 0 0 25px rgba(255, 102, 170, 0.9);
+.hero-btn:hover {
+  transform: scale(1.15) rotate(-2deg);
+  box-shadow: 0 0 40px rgba(255, 105, 180, 0.9), 0 0 80px rgba(0, 255, 128, 0.7);
+}
+
+/* Floating animation */
+@keyframes floatBtn {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Floating hearts */
+.hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  bottom: -10%;
+  font-size: 20px;
+  color: rgba(255, 182, 193, 0.8);
+  animation: floatHeart 8s linear infinite;
+}
+
+@keyframes floatHeart {
+  0% { transform: translateY(0) scale(0.8); opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+}
+
+.heart:nth-child(1) { left: 5%; animation-duration: 9s; }
+.heart:nth-child(2) { left: 15%; animation-duration: 7s; }
+.heart:nth-child(3) { left: 25%; animation-duration: 10s; }
+.heart:nth-child(4) { left: 35%; animation-duration: 8s; }
+.heart:nth-child(5) { left: 45%; animation-duration: 6s; }
+.heart:nth-child(6) { left: 55%; animation-duration: 9s; }
+.heart:nth-child(7) { left: 65%; animation-duration: 7s; }
+.heart:nth-child(8) { left: 75%; animation-duration: 10s; }
+.heart:nth-child(9) { left: 85%; animation-duration: 8s; }
+.heart:nth-child(10) { left: 95%; animation-duration: 11s; }
+
+
+/* Fullscreen cube section */
+.cube-section {
+  height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at center, #ff7eb9, #ff4f8b, #2e003e);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Container for 3D cube */
+.cube-container {
+  perspective: 1200px;
+}
+
+.cube {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  animation: spinCube 20s infinite linear;
+}
+
+/* Each face */
+.face {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 182, 193, 0.4);
+  box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Position each face in 3D */
+.front  { transform: rotateY(0deg) translateZ(150px); }
+.back   { transform: rotateY(180deg) translateZ(150px); }
+.right  { transform: rotateY(90deg) translateZ(150px); }
+.left   { transform: rotateY(-90deg) translateZ(150px); }
+.top    { transform: rotateX(90deg) translateZ(150px); }
+.bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+/* Cube spin */
+@keyframes spinCube {
+  0%   { transform: rotateX(0) rotateY(0); }
+  50%  { transform: rotateX(180deg) rotateY(180deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+/* Floating hearts particles */
+.cube-section::before, .cube-section::after {
+  content: "❤ ❤ ❤";
+  position: absolute;
+  font-size: 2rem;
+  color: rgba(4, 231, 23, 0.546);
+  animation: floatHearts 10s linear infinite;
+}
+
+.cube-section::after {
+  left: 70%;
+  top: 80%;
+  animation-delay: 5s;
+}
+
+@keyframes floatHearts {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+}
+
+.heart-cloud-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(0, 255, 128, 0.1));
+}
+
+#heart-cloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  background: url(https://plus.unsplash.com/premium_photo-1673721701655-13d009f32c57?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  box-sizing: border-box;
+  background-position: center;
+  background-size: cover;
+}
+
+.heart-cloud-section {
+  position: relative;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  background: none;
+}
+
+
+.cloud img:hover {
   transform: scale(1.05);
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+.modal.show img {
+  width: 90vw;
+  height: auto;
+  border-radius: 10px;
+  filter: blur(0); /* remove blur when opened */
+}
+
+.passcode-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+}
+
+.passcode-modal.show {
+  display: flex;
+}
+
+.passcode-content {
+  background: #fff0f8;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 40px rgba(255, 182, 193, 0.6);
+}
+
+.passcode-content input {
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid #ffb6c1;
+  margin-bottom: 20px;
+}
+
+.passcode-content button {
+  padding: 10px 25px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff82a9, #ffb6c1);
+  color: white;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.heart-cloud-section {
+  position: relative;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  background: none; /* remove pink background */
+}
+
+/* Canvas behind images */
+#heart-cloud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* behind everything */
+  pointer-events: none;
+}
+
+.cloud-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-template-rows: repeat(2, 1fr);   /* 2 rows */
+  gap: 30px;
+  justify-items: center;
+  align-items: center;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  z-index: 1; /* above canvas */
+  position: relative;
+}
+.cloud img {
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+  transition: all 0.1s ease;
+  animation: pulseGlow 0.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,105,180,0.4); }
+  50% { box-shadow: 0 0 35px rgba(255,105,180,0.6); }
+}
+
+.cloud img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: blur(15px);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 
+/* Fullscreen Image Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.85); /* dark overlay */
+  z-index: 1000;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain; /* maintain aspect ratio */
+  border-radius: 0; /* optional: remove rounded corners for fullscreen */
+  filter: blur(0); /* remove blur */
+  transform: scale(0.8);
+  animation: modalOpen 0.4s forwards;
+  border-radius: 9px;
+}
+
+/* nice scale-up animation */
+@keyframes modalOpen {
+  to { transform: scale(1); }
+}
+
+/* Modal Overlay */
+.passcode-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 182, 193, 0.3); /* soft romantic pink overlay */
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  animation: fadeInModal 0.5s ease forwards;
+}
+
+.passcode-modal.show {
+  display: flex;
+}
+
+/* Modal Box */
+.passcode-content {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 105, 180, 0.3), rgba(255, 182, 193, 0.2));
+  border-radius: 25px;
+  padding: 50px 60px;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(255, 105, 180, 0.6), 0 0 70px rgba(255, 182, 193, 0.4);
+  backdrop-filter: blur(15px);
+  animation: scaleUp 0.5s ease;
+}
+
+/* Heading + Close */
+.passcode-content h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #ff66aa;
+  text-shadow: 0 0 15px rgba(255, 105, 180, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #ff66aa;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  animation: heartbeat 1.2s infinite;
+}
+
+.close-btn:hover {
+  transform: scale(1.2) rotate(15deg);
+  color: #ff99c8;
+}
+
+/* Input Field */
+.passcode-content input {
+  width: 80%;
+  padding: 15px 20px;
+  font-size: 1.2rem;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 105, 180, 0.6);
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  backdrop-filter: blur(5px);
+  margin-bottom: 25px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+  transition: all 0.3s ease;
+}
+
+.passcode-content input:focus {
+  border-color: #ff99c8;
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+}
+
+/* Unlock Button */
+.passcode-content button {
+  padding: 15px 30px;
+  font-size: 1.3rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff99c8, #ff66aa);
+  color: white;
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.6), 0 0 20px rgba(255, 182, 193, 0.4);
+  transition: all 0.3s ease;
+}
+
+.passcode-content button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px rgba(255, 105, 180, 0.8), 0 0 30px rgba(255, 182, 193, 0.6);
+}
+
+/* Error Text */
+.error {
+  color: #ff2e78;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* Animations */
+@keyframes fadeInModal {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+
+
+.cloud {
+  width: 180px;
+  height: 180px;
+  border-radius: 20%;
+  background: radial-gradient(circle at top, rgba(255, 105, 180, 0.2), rgba(255, 182, 193, 0.05));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+  cursor: pointer;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.cloud img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(15px);
+  transition: all 0.5s ease;
+  border-radius: 10%;
+}
+
+.cloud:hover img {
+  transform: scale(1.05);
+}
+
+
+
+/* Soft bounce / scale animation */
+@keyframes softBounce {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.03); }
+  50% { transform: scale(0.98); }
+  75% { transform: scale(1.02); }
+}
+
+.cloud img.bounce {
+  animation: softBounce 1s ease-in-out forwards;
+}
+
+@keyframes rowBounce {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-5px); }
+  50% { transform: translateY(3px); }
+  75% { transform: translateY(-2px); }
+}
+
+.cloud-row.bounce {
+  animation: rowBounce 1s ease-in-out;
+}
+
+.cloud {
+  width: 180px;
+  height: 180px;
+  border-radius: 20%;
+  background: radial-gradient(circle at top, rgba(255,105,180,0.2), rgba(255,182,193,0.05));
+  box-shadow: 0 0 30px rgba(255,105,180,0.5);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.cloud img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(15px);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  border-radius: 10%;
+}
+
+.cloud:hover img {
+  transform: scale(1.05);
+  filter: blur(8px);
+}
+.cloud-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+}
+
+.cloud {
+  width: 180px;
+  height: 180px;
+  border-radius: 20%;
+  background: radial-gradient(circle at top, rgba(255, 105, 180, 0.2), rgba(255, 182, 193, 0.05));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+  cursor: pointer;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  position: relative;
+
+  /* Subtle continuous bounce */
+  animation: bounce 3s ease-in-out infinite;
+}
+
+/* Optional: randomize bounce timing slightly */
+.cloud:nth-child(odd) {
+  animation-duration: 2.5s;
+}
+.cloud:nth-child(even) {
+  animation-duration: 3.5s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.04);
+  }
+  75% {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
