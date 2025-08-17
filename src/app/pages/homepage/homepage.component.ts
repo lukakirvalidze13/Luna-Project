@@ -154,6 +154,6 @@ startRowBounce() {
       (document.querySelector('.cloud-row') as HTMLElement)?.offsetWidth;
 
       this.bouncingRow = true;  // add class again to trigger bounce
-    }, 2500); // every 2.5s
+    }, 20); // every 2.5s
   }
 }

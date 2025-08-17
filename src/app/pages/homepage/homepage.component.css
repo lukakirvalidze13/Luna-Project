@@ -215,7 +215,7 @@
 
 
 .cloud img:hover {
-  transform: scale(1.05);
+  transform: scale(1.09);
 }
 
 .modal.show img {
@@ -610,12 +610,23 @@
     transform: translateY(0) scale(1);
   }
   25% {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-15px) scale(1.05);
   }
   50% {
     transform: translateY(-10px) scale(1.04);
   }
   75% {
-    transform: translateY(-5px) scale(1.02);
+    transform: translateY(-20px) scale(1.02);
   }
+}
+.cloud {
+  width: 180px;
+  height: 180px;
+  border-radius: 20%;
+  background: radial-gradient(circle at top, rgba(255, 105, 180, 0.2), rgba(255, 182, 193, 0.05));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+  transition: transform 0.2s linear;
+  transform-style: preserve-3d;
+  cursor: pointer;
 }
