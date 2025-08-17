@@ -7,7 +7,7 @@
 
     <!-- Floating hearts -->
     <div class="hearts">
-      <span class="heart">💚</span>
+      <span class="heart">💚</span> 
       <span class="heart">💚</span>
       <span class="heart">💚</span>
       <span class="heart">💚</span>
@@ -41,7 +41,7 @@
   <div class="passcode-content">
     <h2>
       Enter Passcode to Unlock 💚
-      <button class="close-btn" (click)="closePasscodeModal()">✖</button>
+      <button class="close-btn-1" (click)="closePasscodeModal()">✖</button>
     </h2>
 
     <input type="password" [(ngModel)]="enteredPasscode" placeholder="Enter passcode..." />
@@ -51,7 +51,50 @@
 </div>
 
   <!-- Fullscreen Image Modal -->
-  <div class="modal" [class.show]="modalImage" (click)="closeModal()">
-    <img [src]="modalImage" alt="Full Image">
+<div class="modal" [class.show]="modalImage">
+  <div class="modal-content">
+
+    <!-- Image Section -->
+    <div class="modal-image-wrapper">
+      <img [src]="modalImage" alt="Full Image">
+      <button class="close-btn" (click)="closeModal()">✖</button>
+    </div>
+
+    <!-- Comments Panel -->
+    <div class="comments-panel">
+      <h3>Comments</h3>
+      <div class="comments-list">
+        <div class="comment" *ngFor="let comment of comments; let i = index">
+          <div>
+            <span class="username">{{comment.user}}</span>
+            <p>{{comment.text}}</p>
+          </div>
+          <div class="comment-actions">
+            <button class="like-btn" (click)="likeComment(comment)">💚 {{comment.likes}}</button>
+            <button class="delete-btn" *ngIf="comment.user === currentUsername" (click)="deleteComment(i)">🗑</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add new comment -->
+      <div class="add-comment">
+        <input type="text" placeholder="Write a comment..." [(ngModel)]="newCommentText">
+        <button (click)="promptUsernameAndPost()">Post</button>
+      </div>
+
+      <!-- Image like button -->
+      <div class="image-like">
+        <button (click)="likeImage()">💚 {{imageLikes}}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Username prompt modal -->
+  <div class="username-modal" *ngIf="showUsernamePrompt">
+    <div class="username-content">
+      <h4>Please enter your username</h4>
+      <input type="text" [(ngModel)]="tempUsername" placeholder="Your username">
+      <button (click)="confirmUsername()">Confirm</button>
+    </div>
   </div>
 </div>

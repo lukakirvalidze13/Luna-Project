@@ -156,4 +156,71 @@ startRowBounce() {
       this.bouncingRow = true;  // add class again to trigger bounce
     }, 20); // every 2.5s
   }
+
+
+
+  comments = [
+  { user: 'Luka', text: 'მიყვარხარ ჩემი ცხოგრება!', likes: 69 },
+];
+newCommentText = '';
+imageLikes = 0;
+
+addComment() {
+  if(this.newCommentText.trim()) {
+    this.comments.push({ user: 'You', text: this.newCommentText, likes: 0 });
+    this.newCommentText = '';
+  }
+}
+
+likeComment(comment: any) {
+  comment.likes++;
+}
+
+likeImage() {
+  this.imageLikes++;
+}
+
+
+
+currentUsername: string | null = null;
+tempUsername = '';
+showUsernamePrompt = false;
+
+promptUsernameAndPost() {
+  if (!this.currentUsername) {
+    this.showUsernamePrompt = true;
+  } else {
+    this.postComment();
+  }
+}
+
+confirmUsername() {
+  if (this.tempUsername.trim() !== '') {
+    this.currentUsername = this.tempUsername.trim();
+    this.tempUsername = '';
+    this.showUsernamePrompt = false;
+    this.postComment();
+  }
+}
+
+postComment() {
+  if (this.newCommentText.trim() === '') return;
+  this.comments.push({ user: this.currentUsername!, text: this.newCommentText.trim(), likes: 0 });
+  this.newCommentText = '';
+}
+
+
+
+deleteComment(index: number) {
+  this.comments.splice(index, 1);
+}
+
+
+
+
+
+
+
+
+
 }
