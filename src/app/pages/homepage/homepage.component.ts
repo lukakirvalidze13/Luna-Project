@@ -11,10 +11,19 @@ interface HeartParticle {
 }
 
 interface Star {
-  id: number;
+  id: string; // ✅ changed to string to match template usage
   title: string;
   date: string;
   locked: boolean;
+}
+
+interface RomanticParticle {
+  x: number;
+  y: number;
+  size: number;
+  speedY: number;
+  color: string;
+  type: 'orb' | 'lantern';
 }
 
 @Component({
@@ -40,9 +49,9 @@ export class HomepageComponent {
 
     // Initialize stars
     this.stars = [
-      { id: 1, title: 'First Meeting', date: '2021-05-14', locked: false },
-      { id: 2, title: 'First I Love You', date: '2021-08-22', locked: false },
-      { id: 3, title: 'Wedding Date', date: '??-??-2026', locked: true }
+      { id: '1', title: 'First Meeting', date: '2021-05-14', locked: false },
+      { id: '2', title: 'First I Love You', date: '2021-08-22', locked: false },
+      { id: '3', title: 'Wedding Date', date: '??-??-2026', locked: true }
     ];
   }
 
@@ -204,46 +213,84 @@ export class HomepageComponent {
 
   showStarPasscodeModal = false;
   enteredStarPasscode = '';
-  warningStep = 0;
-  warningMessages = [
-    'Are you sure you want to see this special date?',
-    'Are you 210% sure?'
+
+  romanticParticles: RomanticParticle[] = [];
+  numParticles = 20; // fewer but bigger glowing hearts
+  canvasRomantic!: HTMLCanvasElement;
+  ctxRomantic!: CanvasRenderingContext2D;
+
+  private animateRomanticParticles() {
+    requestAnimationFrame(() => this.animateRomanticParticles());
+    this.ctxRomantic.clearRect(0, 0, this.canvasRomantic.width, this.canvasRomantic.height);
+
+    for (let p of this.romanticParticles) {
+      // Floating upwards with gentle sine drift
+      p.y -= p.speedY;
+      p.x += Math.sin(p.y * 0.01) * 0.5;
+
+      // Wrap around screen
+      if (p.y < -50) p.y = this.canvasRomantic.height + 50;
+      if (p.x > this.canvasRomantic.width + 50) p.x = -50;
+      if (p.x < -50) p.x = this.canvasRomantic.width + 50;
+
+      // Draw heart shape
+      this.ctxRomantic.save();
+      this.ctxRomantic.translate(p.x, p.y);
+      this.ctxRomantic.scale(p.size / 20, p.size / 20);
+      this.ctxRomantic.fillStyle = p.color;
+      this.ctxRomantic.beginPath();
+      this.ctxRomantic.moveTo(0, -10);
+      this.ctxRomantic.bezierCurveTo(-12, -20, -20, -5, 0, 10);
+      this.ctxRomantic.bezierCurveTo(20, -5, 12, -20, 0, -10);
+      this.ctxRomantic.fill();
+      this.ctxRomantic.restore();
+    }
+  }
+
+  // -------------------- CINEMATIC SECTION --------------------
+  cinematicActive = false;
+  loadingCinematic = false;
+  menuCollapsed = false;
+  activeSection: string | null = 'firstMet'; // ✅ corrected type
+  keycardActive = false;
+  enteredKey = '';
+
+  cinematicSections = [
+    { id: 'firstMet', title: 'When We First Met', emoji: '🌸', subtitle: '21 November 2024', text: 'The day our journey began…' },
+    { id: 'firstLove', title: 'First Time She Said I Love You', emoji: '💌', subtitle: '14 January 2025', text: 'A moment of magic and warmth.' },
+    { id: 'marriage', title: 'Marriage', emoji: '💍', subtitle: 'Click Im ready to see the date ', text: '' }
   ];
 
-  onStarClick(star: Star) {
-    if (star.locked) {
-      this.warningStep = 1;
-    } else {
-      this.selectedStar = star;
-    }
+  openCinematicUI() {
+    this.cinematicActive = true;
+    this.loadingCinematic = true;
+    setTimeout(() => this.loadingCinematic = false, 1500);
   }
 
-  nextWarning() {
-    if (this.warningStep < this.warningMessages.length) {
-      this.warningStep++;
-    } else {
-      this.showStarPasscodeModal = true;
-      this.warningStep = 0;
-    }
+  openKeycard(){ this.keycardActive = true; }
+  closeKeycard(){ 
+    this.keycardActive = false; 
+    this.enteredKey = ''; 
   }
 
-  cancelStarPasscode() {
-    this.warningStep = 0;
-    this.showStarPasscodeModal = false;
-    this.enteredStarPasscode = '';
+  closeCinematicUI() {
+    this.cinematicActive = false;
+    this.loadingCinematic = false;
   }
 
-  unlockStar() {
-    if (this.enteredStarPasscode === this.correctPasscode) {
-      const thirdStar = this.stars.find(s => s.id === 3);
-      if (thirdStar) {
-        thirdStar.locked = false;
-        this.selectedStar = thirdStar;
-        this.showStarPasscodeModal = false;
-        this.enteredStarPasscode = '';
-      }
-    } else {
-      alert('Wrong passcode!');
-    }
+  selectSection(id: string) { // ✅ now matches string
+    this.activeSection = id;
   }
+submitKey() {
+  if (this.enteredKey === '69') {
+    // The key is correct — do something, e.g., show a message or unlock content
+    alert("Key accepted! 💚");
+    this.keycardActive = false;
+    this.enteredKey = '';
+  } else {
+    // Wrong key — show error
+    alert("Wrong key, try again!");
+    this.enteredKey = '';
+  }
+}
 }

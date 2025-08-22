@@ -98,23 +98,81 @@
     </div>
   </div>
 </div>
+</div>
 
-<section class="star-map-section">
-  <h2>✨ Our Special Moments ✨</h2>
-  
-  <div class="stars-container">
-    <div 
-      class="star" 
-      *ngFor="let star of stars" 
-      [class.locked]="star.locked" 
-      (click)="onStarClick(star)">
-      ⭐
+
+
+<section class="romantic-section">
+  <!-- GIF background -->
+  <div class="background-gif"></div>
+
+  <!-- Cinematic Uiverse Button -->
+  <button class="cinematic-button" (click)="openCinematicUI()">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span>🐻‍❄️</span>
+  </button>
+
+  <!-- Fullscreen cinematic UI -->
+  <div class="cinematic-ui" [class.active]="cinematicActive">
+
+    <!-- Loading overlay -->
+    <div class="loading-screen" *ngIf="loadingCinematic">
+      <div class="loading-spinner"></div>
+      <p>Loading your memories...</p>
+    </div>
+
+    <!-- Main UI content -->
+    <div class="ui-content">
+
+      <!-- Left side menu -->
+      <div class="side-menu" [class.collapsed]="menuCollapsed">
+        <button class="toggle-menu" (click)="menuCollapsed = !menuCollapsed">
+          {{ menuCollapsed ? '•••' : '💚 Memories' }}
+        </button>
+        <div class="menu-items">
+          <button 
+            *ngFor="let section of cinematicSections" 
+            [class.active]="activeSection === section.id"
+            (click)="selectSection(section.id)">
+            <span class="emoji">{{ section.emoji }}</span>
+            <span class="title" *ngIf="!menuCollapsed">{{ section.title }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section content -->
+      <div class="section-content">
+        <button class="close-btn" (click)="closeCinematicUI()">✖</button>
+        
+        <div *ngFor="let section of cinematicSections">
+          <div *ngIf="activeSection === section.id" class="content-card">
+            <h1 class="section-title">{{ section.title }}</h1>
+            <h3 class="section-subtitle">{{ section.subtitle }}</h3>
+            <p class="section-text">{{ section.text }}</p>
+
+ <!-- Marriage section button -->
+            <div *ngIf="section.id === 'marriage'" class="ready-container">
+              <button class="marriage-ready-button" (click)="openKeycard()">I'M READY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Keycard overlay -->
+  <div class="keycard-overlay" *ngIf="keycardActive">
+    <div class="keycard-container">
+      <h2>Enter your secret key</h2>
+      <input type="text" [(ngModel)]="enteredKey" placeholder="Enter key..." />
+      <button (click)="submitKey()">Unlock</button>
+      <button class="close-keycard" (click)="closeKeycard()">✖</button>
     </div>
   </div>
 
-  <div class="star-popup" *ngIf="selectedStar">
-    <h3>{{selectedStar.title}}</h3>
-    <p>{{selectedStar.date}}</p>
-    <button (click)="selectedStar=null">Close</button>
-  </div>
 </section>

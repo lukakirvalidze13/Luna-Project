@@ -1,1 +1,18 @@
-<p>wheel works!</p>
+<div class="slot-machine-container">
+  <div class="slot-title">💖 Romantic Slot Machine 💖</div>
+
+  <div class="slot-machine">
+    <div class="reel" *ngFor="let reel of reels">
+      <div class="symbols" [style.transform]="reel.transform">
+        <div class="symbol" *ngFor="let s of reel.symbols">{{ s }}</div>
+      </div>
+    </div>
+
+    <div class="lever" (click)="spin()">
+      <div class="lever-handle"></div>
+      <div class="click-text">PULL ME!</div>
+    </div>
+  </div>
+
+  <div class="dare-text" *ngIf="currentDare">{{ currentDare }}</div>
+</div>
